@@ -1,113 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Page</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f0f2f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .login-container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #555;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      transition: border 0.3s;
-    }
-
-    .form-group input:focus {
-      border-color: #007bff;
-      outline: none;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .login-btn:hover {
-      background: #0056b3;
-    }
-
-    .extra-links {
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    .extra-links a {
-      color: #007bff;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .extra-links a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Match Rush</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form action="#">
-      <div class="form-group">
-        <label for="email">Email or Username</label>
-        <input type="text" id="email" name="email" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
-      </div>
-      <button type="submit" class="login-btn">Login</button>
-    </form>
-    <div class="extra-links">
-      <p><a href="#">Forgot password?</a></p>
-      <p>Don't have an account? <a href="#">Sign up</a></p>
+    <!-- Audio Permission Banner -->
+    <div id="audio-permission-banner" class="audio-banner">
+        <p>🔊 Click here to enable game sounds</p>
     </div>
-  </div>
+
+    <!-- Device Selection Screen -->
+    <div id="device-selection-screen" class="screen active">
+        <h1 class="game-title">Color Match Rush</h1>
+        <div class="color-icons">
+            <span class="color-icon red"></span>
+            <span class="color-icon green"></span>
+            <span class="color-icon blue"></span>
+        </div>
+        <h2>Choose Your Device</h2>
+        <div class="device-buttons">
+            <button id="mobile-btn" class="device-btn">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Mobile</span>
+            </button>
+            <button id="pc-btn" class="device-btn">
+                <i class="fas fa-laptop"></i>
+                <span>PC / Laptop</span>
+            </button>
+            <button id="tablet-btn" class="device-btn">
+                <i class="fas fa-tablet-alt"></i>
+                <span>Tablet</span>
+            </button>
+        </div>
+        <p class="device-note">This helps us optimize your experience, but the game will adapt to your device automatically.</p>
+    </div>
+
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen">
+        <h1 class="game-title">Color Match Rush</h1>
+        <div class="color-icons">
+            <span class="color-icon red"></span>
+            <span class="color-icon green"></span>
+            <span class="color-icon blue"></span>
+        </div>
+        <button id="start-btn" class="neon-btn">Start Game</button>
+        <div class="instructions">
+            <h2>How to Play</h2>
+            <p>Match the falling circles with the correct color button before they reach the bottom!</p>
+            <p>3 misses and it's game over!</p>
+            <div id="keyboard-controls" class="hidden">
+                <h3>Keyboard Controls:</h3>
+                <p><span class="key">R</span> - Red | <span class="key">G</span> - Green | <span class="key">B</span> - Blue</p>
+                <p><span class="key">M</span> - Toggle Sound | <span class="key">ESC</span> - Restart</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <div class="score-container">
+                <span>Score: <span id="score">0</span></span>
+            </div>
+            <div class="lives-container">
+                <span id="lives"><i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i></span>
+            </div>
+            <div class="controls">
+                <button id="sound-toggle" class="icon-btn"><i class="fas fa-volume-up"></i></button>
+                <button id="restart-btn" class="icon-btn"><i class="fas fa-redo"></i></button>
+            </div>
+        </div>
+        
+        <div id="game-area">
+            <!-- Circles will be generated here -->
+        </div>
+        
+        <div class="color-buttons">
+            <button id="red-btn" class="color-btn red-btn" data-key="R"><span class="btn-glow"></span></button>
+            <button id="green-btn" class="color-btn green-btn" data-key="G"><span class="btn-glow"></span></button>
+            <button id="blue-btn" class="color-btn blue-btn" data-key="B"><span class="btn-glow"></span></button>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" class="screen">
+        <h2>Game Over</h2>
+        <div class="final-score">
+            <span>Final Score: <span id="final-score">0</span></span>
+        </div>
+        <button id="play-again-btn" class="neon-btn">Play Again</button>
+        <button id="back-to-home-btn" class="neon-btn secondary">Back to Home</button>
+    </div>
+
+    <footer>
+        <p>Developed by Sazida 😊</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
