@@ -1,0 +1,783 @@
+
+*{
+    margin: 0;
+    font-family: 'Comfortaa', cursive;
+}
+
+/* this is first-page styling */
+.start-page{
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: rgb(18, 18, 18);
+}
+
+.start-page > img{
+    height: 40vh;
+    width:40vh;
+    top: 30%;
+    left: 15%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    animation: rotate 3s ease-in-out infinite;
+}
+
+
+@keyframes rotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+
+/* this is main-page styling */
+.mainpage{
+    display: none;
+}
+
+
+/* this is home-page styling */
+.home{
+    position: relative;
+    z-index: 1;
+    padding-left: 4vw;
+    /* background-image: linear-gradient(135deg, rgb(90, 60, 60), rgb(18, 18, 18), rgb(18, 18, 18), rgb(18, 18 ,18)); */
+    /* background-color: rgb(18, 18, 18); */
+    background-image: url("https://i.ibb.co/G396V66/wp4748688.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    color: rgb(255, 255, 255);
+    box-shadow: inset 0 0 10px rgb(95, 56, 56);
+    overflow-x: hidden;
+    display: block; /* this is to be changed */
+    padding-bottom: 15vh;
+    font-weight: bolder;
+}
+
+.top-buttons{
+    text-align: right;
+}
+
+.top-buttons > span{
+    font-size: 50px;
+    margin-top: 2vh;
+    margin-right: 2vw;
+    cursor: pointer;
+}
+
+.list{
+    margin-top: 2vh;
+    width: 88vw;
+    height: auto;
+    overflow-x: auto;
+    padding-bottom: 5vh;
+    overflow-y: hidden;
+    margin-bottom: 5vh;
+    padding: 1vh;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+}
+
+.list > div{
+    width: max-content;
+}
+
+.heading{
+    font-size: 25px;
+    margin-bottom: 2vh;
+    width: 88vw;
+    padding: 1vh;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    border-bottom: 4px solid green;
+}
+
+.song{
+    display: inline-block;
+    height: auto;
+    width: 20vh;
+    margin-right: 4vw;
+    cursor: pointer;
+}
+
+.pic{
+    border-radius: 20px;
+    height: 20vh;
+    width: 20vh;
+    outline: none;
+}
+
+.artists{
+    display: inline-block;
+    height: auto;
+    width: 20vh;
+    text-align: center;
+    padding-top: 4px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    padding-bottom: 4px;
+    font-weight: nornal;
+    font-size: 10px;
+}
+
+/* this is search page styling */
+.search{
+    position: relative;
+    min-height: 90vh;
+    width: auto;
+    background: rgb(18, 18, 18);
+    z-index: 1;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    color: white;
+    padding-bottom: 15vh;
+    overflow-x: hidden;
+    display: none; /*this is to be  changed */
+}
+
+.search > h1{
+    font-size: 30px;
+    padding-top: 5vh;
+    
+}
+
+.search-bar{
+    height: 40px;
+    width: 88vw;
+    background-color: white;
+    margin-top: 3vh;
+    border-radius: 20px;
+    color: rgb(64, 64, 64);
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5vh;
+}
+
+.search-bar > .material-icons{
+    display: inline-block;
+    font-size: 30px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.search-bar > .search-bar-asp{
+    display: inline-block;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: 10px;
+}
+
+#search-items{
+    padding: 2vw;
+    background-image: url('https://i.ibb.co/G396V66/wp4748688.jpg');
+    
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.search > #search-items > h2{
+    font-size: 21px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.cards{
+    height: auto;
+    width: 92vw;
+}
+
+.card-left{
+    display: inline-block;
+    width: 43vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5vh 0;
+    text-align: center;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+}
+
+.card-right{
+    display: inline-block;
+    width: 43vw;
+    margin-left: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5vh 0;
+    text-align: center;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+}
+
+.one{
+    background-color: rgba(255, 70, 50,0.8);
+}
+
+.two{
+    background-color: rgba(176, 40, 150,0.8);
+}
+
+.three{
+    background-color: rgba(214, 167, 85,0.8);
+}
+
+.four{
+    background-color: rgba(20, 190, 117,0.8);
+}
+
+.five{
+    background-color: rgba(65, 0, 245,0.8);
+}
+
+.six{
+    background-color: rgba(165, 202, 168,0.8);
+}
+
+.seven{
+    background-color: rgba(196, 150, 135,0.8);
+}
+
+.eight{
+    background-color: rgba(255, 70, 50,0.8);
+}
+
+.nine{
+    background-color: rgba(241, 55, 166,0.8);
+}
+
+.ten{
+    background-color: rgba(110, 170, 160,0.8);
+}
+
+.eleven{
+    background-color: rgba(181, 155, 200,0.8);
+}
+
+.twelve{
+    background-color: rgba(245, 155, 35,0.8);
+}
+
+.thirteen{
+    background-color: rgba(80, 155, 246,0.8);
+}
+
+.fourteen{
+    background-color: rgba(236, 30, 50,0.8);
+}
+
+.fifteen{
+    background-color: rgba(241, 55, 166,0.8);
+}
+
+.sixteen{
+    background-color: rgba(117, 183, 171,0.8);
+}
+
+.seventeen{
+    background-color: rgba(255, 100, 54,0.8);
+}
+
+.eighteen{
+    background-color: rgba(111, 111, 111,0.8);
+}
+
+.nineteen{
+    background-color: rgba(245, 155, 35,0.8);
+}
+
+.twenty{
+    background-color: rgba(255, 100, 54,0.8);
+}
+
+
+/* this is your library styling */
+.your-library{
+    position: relative;
+    min-height: 90vh;
+    width: auto;
+    z-index: 1;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    color: white;
+    background-color: rgb(18, 18, 18);
+    display: none; /* this is to be changed */
+}
+
+.m-p{
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    font-size: 30px;
+}
+
+.m-p > div{
+    display: inline-block;
+    margin-right: 5vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.m-p > div:nth-child(2)
+{
+    font-weight: normal;
+}
+
+.your-library-color{
+    padding: 1vw;
+    background-image: url('https://i.ibb.co/G396V66/wp4748688.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.p-a-a{
+    width: max-content;
+}
+
+.p-a-a > div{
+    display: inline-block; 
+    font-size: 20px;
+    margin-right: 3vw;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 3px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    color: rgb(255, 255, 255);
+}
+
+.p-a-a > div:nth-child(1){
+    border-bottom: 2px solid green;
+}
+
+.p-a-a > div:nth-child(3){
+    margin-right: 0;
+}
+
+.p-a-e-d-s{
+    height: 72.8vh;
+    width: 92vw;
+    display: block; /* this is to be changed */
+}
+
+.p-a-e-d-s > div{
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    text-align: center;
+    padding: 6px;
+    border-radius: 10px;
+    border-bottom: 4px solid green;
+}
+
+.p-a-e-d-s > div > h1{
+    font-size: 22px;
+}
+
+.p-a-e-d-s > div > p{
+    font-size: 10px;
+    margin-top: 2vh;
+    color: rgb(179, 179, 179);
+}
+
+.p-a-e-d-s > div > span{
+    display: inline-block;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin-top: 5vh;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    padding-left: 4vh;
+    padding-right: 4vh;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.artist-info-page{
+    min-height: 70vh;
+    display: none;
+}
+
+.artist-info{
+    margin-top: 2vh;
+    width: 90%;
+    padding: 2px 2vw 0 2vw;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    border-radius: 10px;
+    
+}
+
+.artist-pic{
+    display: inline-block;
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+    background-color: rosybrown;
+}
+
+.artist-name{
+    position: absolute;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 2vw;
+    margin-top: 3.5vh;
+}
+
+
+/* this is permium section styling */
+.premium{
+    position: relative;
+    min-height: 90vh;
+    background-color: rgb(18, 18, 18);
+    padding-left: 4vw;
+    padding-right: 4vw;
+    color: white;
+    padding-top: 5vh;
+    display: none;
+    background-image: url('https://i.ibb.co/G396V66/wp4748688.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    padding-bottom: 11vh;
+}
+
+.premium > h1{
+    text-align: center;
+    font-size: 25px;
+    line-height: 35px;
+}
+
+.premium > h1 > div{
+    display: inline-block;
+    padding: 5px;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    border-radius: 10px;
+}
+
+.slideshow-compare{
+    height: 25vh;
+    width: 88vw;
+    margin-top: 5vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: block;
+    padding: 1vh;
+}
+
+.slideshow-compare > div{
+    width: 415vw;
+}
+
+.compare{
+    display: inline-block;
+    height: 25vh;
+    width: 70vw;
+    margin-left: 10vw;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    border-right: 3px solid green;
+    border-left: 3px solid green;
+}
+
+.compare-free{
+    height: 25vh;
+    width: 35vw;
+    display: inline-block;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.compare-free > .compare-free-title{
+    display: inline-block;
+    text-transform: uppercase;
+    padding-top: 1vh;
+    font-size: 10px;
+}
+
+.compare-paid{
+    height: 25vh;
+    width: 35vw;
+    display: inline-block;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.compare-paid-title{
+    display: inline-block;
+    text-transform: uppercase;
+    padding-top: 1vh;
+    font-size: 10px;
+}
+
+.compared{
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 7vh;
+}
+
+.get-premium-button-container{
+    text-align: center;
+}
+
+.get-premium-button{
+    display: inline-block;
+    padding: 2vh 4vh;
+    font-size: 15px;
+    background-color: white;
+    color: black;
+    margin-top: 5vh;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.spotify-free-plan{
+    width: auto;
+    height: auto;
+    padding: 3vh 3vh;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    padding-bottom: 3vh;
+    margin-top: 5vh;
+    border-radius: 10px;
+    border-left: 3px solid green;
+    border-right: 3px solid green;
+}
+
+.spotify-free-plan > div:nth-child(1){
+    display: inline;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.spotify-free-plan > div:nth-child(2){
+    display: inline;
+    padding-top: 1vh;
+    font-size: 15px;
+    float: right;
+}
+
+.paid-plans{
+    height: auto;
+    width: auto;
+    margin-top: 3vh;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    padding: 2vh;
+    text-align: center;
+    border-radius: 10px;
+    border-right: 3px solid green;
+    border-left: 3px solid green;
+}
+
+.paid-plans-name{
+    display: inline;
+    float: left;
+    font-size: 20px;
+    max-width: 70vw;
+    font-weight: bold;
+}
+
+.pricing{
+    float: right;
+    display: inline;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.specifications{
+    display: block;
+    clear: both;
+    padding-top: 4vh;
+    text-align: center;
+    font-weight: 800;
+}
+
+.paid-plans-button{
+    display: inline-block;
+    margin-top: 2vh;
+    padding: 2vh 3vh;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+}
+
+
+
+/* this is nav-bar styling */
+.nav-bar{
+    position: fixed;
+    background-color: rgb(40, 40, 40);
+    height: 10vh;
+    width: 100vw;
+    z-index: 10;
+    margin-top: 90vh;
+    display: none;
+}
+
+.nav-bar > a > button{
+    display: inline-block;
+    height: 10vh;
+    width: 25vw;
+    background-color: rgba(216, 191, 216, 0);
+    border: none;
+    outline: none;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.nav-bar > a > button > img{
+    height: 40px;
+}
+
+/* this is music player styling */
+.music-player{
+    height: 90vh;
+    width: 100%;
+    background-image: url('https://i.ibb.co/q0jVVhF/3518.jpg');
+    overflow-x: hidden;
+    display: none;
+}
+
+#music-player-image{
+    display: inline-block;
+    top: 35%;
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    border-radius: 10px;
+    height: 70vw;
+    width: 70vw;
+}
+
+.song-controls{
+    height: 20vh;
+    width: 100%;
+    text-align: center;
+    margin-top: 70vh;
+}
+
+.song-controls > span{
+    display: inline-block;
+    color: black; 
+    height: 10vh;
+    width: auto;
+    cursor: pointer;
+    background-color: rgba(255,255,255,0.2);
+}
+
+.song-controls > span:nth-child(1){
+    height: auto;
+    width: auto;
+    font-size: 7vh;
+    padding: 1vh;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    margin-top: 2vh;
+    color: rgb(47, 47, 47);
+}
+
+.song-controls > span:nth-child(2){
+    height: auto;
+    width: auto;
+    font-size: 7vh;
+    padding: 1vh;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    
+}
+
+.song-controls > span:nth-child(3){
+    height: auto;
+    width: 14vh;
+}
+
+.song-controls > span:nth-child(4){
+    height: 10vh;
+    width: 10vh;
+    padding: 1vh;
+    border-radius:50%;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    font-size: 10vh;
+    position: absolute;
+    margin-left: -13.5vh;
+}
+
+.song-controls > span:nth-child(5){
+    height: auto;
+    width: auto;
+    font-size: 7vh;
+    padding: 1vh;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+}
+
+.song-controls > span:nth-child(6){
+    height: auto;
+    width: auto;
+    font-size: 7vh;
+    padding: 1vh;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(61, 61, 61);
+    color: rgb(47, 47, 47);
+}
+
+/* this is theme store styling */
+.themeStore{
+    min-height: 185vh;
+    padding: 2vh 4vw;
+    width: auto;
+    padding-bottom: 10vh;
+    display: none;
+    background-color: rgb(18, 18, 18);
+}
+
+.themeStore > div{
+    height: 35vh;
+    width: 42vw;
+    display: inline-block;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+}
+
+.themeStore > div > img{
+    height: 35vh;
+    width: 42vw;
+    border-radius: 10px;
+}
+
+.first,
+.third,
+.fifth,
+.seventh,
+.nineth{
+    float: left;
+}
+
+.second,
+.fourth,
+.sixth,
+.eighth,
+.tenth{
+    float: right;
+}
+
+.second{
+    box-shadow: 0 0 10px white;
+}

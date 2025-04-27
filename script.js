@@ -1,494 +1,620 @@
-// Game variables
-let score = 0
-let lives = 3
-let gameActive = false
-let soundEnabled = true
-let circleInterval
-let circles = []
-let deviceType = "auto" // 'mobile', 'pc', or 'tablet'
-let fallSpeed = 3 // Default fall speed in seconds
 
-// Wait for DOM to be fully loaded before accessing elements
-document.addEventListener("DOMContentLoaded", function() {
-  // DOM Elements
-  const deviceSelectionScreen = document.getElementById("device-selection-screen")
-  const homeScreen = document.getElementById("home-screen")
-  const gameScreen = document.getElementById("game-screen")
-  const gameOverScreen = document.getElementById("game-over-screen")
-  const mobileBtn = document.getElementById("mobile-btn")
-  const pcBtn = document.getElementById("pc-btn")
-  const tabletBtn = document.getElementById("tablet-btn")
-  const startBtn = document.getElementById("start-btn")
-  const restartBtn = document.getElementById("restart-btn")
-  const playAgainBtn = document.getElementById("play-again-btn")
-  const backToHomeBtn = document.getElementById("back-to-home-btn")
-  const soundToggle = document.getElementById("sound-toggle")
-  const scoreDisplay = document.getElementById("score")
-  const finalScoreDisplay = document.getElementById("final-score")
-  const livesDisplay = document.getElementById("lives")
-  const gameArea = document.getElementById("game-area")
-  const redBtn = document.getElementById("red-btn")
-  const greenBtn = document.getElementById("green-btn")
-  const blueBtn = document.getElementById("blue-btn")
-  const keyboardControls = document.getElementById("keyboard-controls")
-  const audioBanner = document.getElementById("audio-permission-banner")
+window.onload = () => {
+    isplaying = false;
+    islooping = false;
+    isshuffling = false;
+   num=1;
+   alert("The features of my Spotify\n\n🔥 New and Nice UI\n\n🔥 Beautiful background images\n\n🔥 Added a Theme store where you can change themes\n\n🔥 You can actually listen songs\n\n🔥 Glass background for objects");
+ document.getElementById("start-page").style.display = "none";
+    document.getElementById("nav-bar").style.display = "block";
+    document.getElementById("mainpage").style.display = "block";
+    snum = 1;
+    document.getElementById(num).addEventListener("ended", () => {
+        if (islooping) {
+            document.getElementById(num).play();
+        }
+        else if (isshuffling) {
+            randomNum = Math.floor(Math.random() * 23) + 1;
+            if (randomNum == 0)
+                randomNum = 1;
+            if (randomNum == snum)
+            {
+                snum++;
+                if(snum >= 24)
+                    snum = 1;
+                musicPlayer(snum);
+                document.getElementById(snum).play();
+            }
+            else
+            {
+                musicPlayer(randomNum);
+            }
 
-  // Sound effects - modified for better compatibility with Sololearn
-  const correctSound = new Audio()
-  correctSound.src = "https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"
+        }
+        else
+            next();
+    });
+}
 
-  const wrongSound = new Audio()
-  wrongSound.src = "https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"
+function themeChange() {
+    document.getElementById("mainpage").style.display = "none";
+    document.getElementById("themeStore").style.display = "block";
+}
 
-  const gameOverSound = new Audio()
-  gameOverSound.src = "https://assets.mixkit.co/sfx/preview/mixkit-player-losing-or-failing-2042.mp3"
-
-  const backgroundMusic = new Audio()
-  backgroundMusic.src = "https://assets.mixkit.co/sfx/preview/mixkit-game-level-music-689.mp3"
-  backgroundMusic.loop = true
-
-  // Add this function to safely play audio
-  function safePlayAudio(audioElement) {
-    // Only try to play if sound is enabled
-    if (soundEnabled) {
-      const playPromise = audioElement.play()
-
-      // Play might not return a promise in all browsers
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          // Auto-play was prevented - this is expected in Sololearn
-          console.log("Note: Audio autoplay is restricted in this environment")
-          // Don't show the error in console
-        })
-      }
-    }
-  }
-
-  // Auto-detect device type
-  function detectDeviceType() {
-    const ua = navigator.userAgent
-    if (/Mobi|Android/i.test(ua) && window.innerWidth < 768) {
-      return "mobile"
-    } else if (/iPad|Tablet|Android/i.test(ua) || (window.innerWidth >= 768 && window.innerWidth < 1024)) {
-      return "tablet"
-    } else {
-      return "pc"
-    }
-  }
-
-  // Apply device-specific optimizations
-  function applyDeviceOptimizations() {
-    document.body.classList.remove("mobile-optimized", "pc-optimized", "tablet-optimized")
-
-    // Auto-detect if not explicitly set
-    if (deviceType === "auto") {
-      deviceType = detectDeviceType()
+function showhome() {
+    document.getElementById("mainpage").style.display = "block";
+    document.getElementById("your-library").style.display = "none";
+    document.getElementById("search").style.display = "none";
+    document.getElementById("premium").style.display = "none";
+    document.getElementById("home").style.display = "block";
+    document.getElementById("music-player").style.display = "none";
+    document.getElementById("themeStore").style.display = "none";
+    if(document.getElementById(snum).paused == false)
+    {
+        document.getElementById(snum).pause();
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
 
-    document.body.classList.add(`${deviceType}-optimized`)
-
-    // Device-specific adjustments
-    if (deviceType === "mobile") {
-      fallSpeed = 3.5 // Slightly slower for mobile
-      if (keyboardControls) keyboardControls.classList.add("hidden")
-    } else if (deviceType === "pc") {
-      fallSpeed = 3 // Default speed for PC
-      if (keyboardControls) keyboardControls.classList.remove("hidden")
-    } else if (deviceType === "tablet") {
-      fallSpeed = 3.2 // Medium speed for tablet
-      if (keyboardControls) keyboardControls.classList.add("hidden")
+    else if(document.getElementsByClassName("play-pause")[0].innerText == "pause")
+    {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
-  }
-
-  // Update the initGame function to use safePlayAudio
-  function initGame() {
-    score = 0
-    lives = 3
-    gameActive = true
-    circles = []
-
-    // Apply device optimizations
-    applyDeviceOptimizations()
-
-    // Update UI
-    scoreDisplay.textContent = score
-    updateLives()
-
-    // Clear game area
-    gameArea.innerHTML = ""
-
-    // Start generating circles
-    circleInterval = setInterval(createCircle, 1500)
-
-    // Play background music
-    safePlayAudio(backgroundMusic)
-  }
-
-  // Create a falling circle
-  function createCircle() {
-    if (!gameActive) return
-
-    const colors = ["red", "green", "blue"]
-    const randomColor = colors[Math.floor(Math.random() * colors.length)]
-    const randomPosition = Math.floor(Math.random() * (gameArea.offsetWidth - 50))
-
-    const circle = document.createElement("div")
-    circle.classList.add("circle", randomColor)
-    circle.style.left = `${randomPosition}px`
-    circle.dataset.color = randomColor
-
-    // Set the fall animation duration based on device type
-    circle.style.animationDuration = `${fallSpeed}s`
-
-    gameArea.appendChild(circle)
-    circles.push(circle)
-
-    // Check if circle reaches bottom
-    circle.addEventListener("animationend", () => {
-      if (gameArea.contains(circle)) {
-        // Circle reached bottom without being clicked
-        missCircle()
-        gameArea.removeChild(circle)
-        circles = circles.filter((c) => c !== circle)
-      }
-    })
-  }
-
-  // Update the handleColorClick function to use safePlayAudio
-  function handleColorClick(clickedColor) {
-    if (!gameActive) return
-
-    // Find the lowest circle that matches the clicked color
-    const matchingCircles = circles.filter((circle) => circle.dataset.color === clickedColor)
-
-    if (matchingCircles.length > 0) {
-      // Sort by position (top value)
-      matchingCircles.sort((a, b) => {
-        return a.offsetTop - b.offsetTop
-      })
-
-      const lowestCircle = matchingCircles[matchingCircles.length - 1]
-
-      // Remove the circle and update score
-      gameArea.removeChild(lowestCircle)
-      circles = circles.filter((c) => c !== lowestCircle)
-
-      // Increase score
-      score += 10
-      scoreDisplay.textContent = score
-
-      // Play correct sound
-      if (soundEnabled) {
-        correctSound.currentTime = 0
-        safePlayAudio(correctSound)
-      }
-    } else {
-      // Wrong color clicked
-      missCircle()
-    }
-  }
-
-  // Update the missCircle function to use safePlayAudio
-  function missCircle() {
-    lives--
-    updateLives()
-
-    if (soundEnabled) {
-      wrongSound.currentTime = 0
-      safePlayAudio(wrongSound)
+}
+function showsearch() {
+    document.getElementById("mainpage").style.display = "block";
+    document.getElementById("your-library").style.display = "none";
+    document.getElementById("search").style.display = "block";
+    document.getElementById("premium").style.display = "none";
+    document.getElementById("home").style.display = "none";
+    document.getElementById("music-player").style.display = "none";
+    document.getElementById("themeStore").style.display = "none";
+    if(document.getElementById(snum).paused == false)
+    {
+        document.getElementById(snum).pause();
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
 
-    if (lives <= 0) {
-      endGame()
+    else if(document.getElementsByClassName("play-pause")[0].innerText == "pause")
+    {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
-  }
+}
 
-  // Update lives display
-  function updateLives() {
-    livesDisplay.innerHTML = ""
-    for (let i = 0; i < lives; i++) {
-      const heart = document.createElement("i")
-      heart.classList.add("fas", "fa-heart")
-      livesDisplay.appendChild(heart)
-    }
-  }
-
-  // Update the endGame function to use safePlayAudio
-  function endGame() {
-    gameActive = false
-    clearInterval(circleInterval)
-
-    // Stop background music
-    backgroundMusic.pause()
-    backgroundMusic.currentTime = 0
-
-    // Play game over sound
-    if (soundEnabled) {
-      safePlayAudio(gameOverSound)
+function showlibrary() {
+    document.getElementById("mainpage").style.display = "block";
+    document.getElementById("your-library").style.display = "block";
+    document.getElementById("search").style.display = "none";
+    document.getElementById("premium").style.display = "none";
+    document.getElementById("home").style.display = "none";
+    document.getElementById("music-player").style.display = "none";
+    document.getElementById("themeStore").style.display = "none";
+    if(document.getElementById(snum).paused == false)
+    {
+        document.getElementById(snum).pause();
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
 
-    // Update final score
-    finalScoreDisplay.textContent = score
-
-    // Show game over screen
-    gameScreen.classList.remove("active")
-    gameOverScreen.classList.add("active")
-  }
-
-  // Replace the toggleSound function with this version
-  function toggleSound() {
-    soundEnabled = !soundEnabled
-
-    if (soundEnabled) {
-      soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>'
-      // Try to play background music only if game is active
-      if (gameActive) {
-        // User has now interacted, try to play
-        safePlayAudio(backgroundMusic)
-      }
-    } else {
-      soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>'
-      backgroundMusic.pause()
+    else if(document.getElementsByClassName("play-pause")[0].innerText == "pause")
+    {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
-  }
+}
 
-  // Handle keyboard controls
-  function handleKeyPress(e) {
-    if (!gameActive) return
-
-    const key = e.key.toUpperCase()
-
-    switch (key) {
-      case "R":
-        handleColorClick("red")
-        animateButtonPress(redBtn)
-        break
-      case "G":
-        handleColorClick("green")
-        animateButtonPress(greenBtn)
-        break
-      case "B":
-        handleColorClick("blue")
-        animateButtonPress(blueBtn)
-        break
-      case "M":
-        toggleSound()
-        break
-      case "ESCAPE":
-        clearInterval(circleInterval)
-        initGame()
-        break
+function showpremium() {
+    document.getElementById("mainpage").style.display = "block";
+    document.getElementById("your-library").style.display = "none";
+    document.getElementById("search").style.display = "none";
+    document.getElementById("premium").style.display = "block";
+    document.getElementById("home").style.display = "none";
+    document.getElementById("music-player").style.display = "none";
+    document.getElementById("themeStore").style.display = "none";
+    if(document.getElementById(snum).paused == false)
+    {
+        document.getElementById(snum).pause();
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
-  }
 
-  // Animate button press for keyboard controls
-  function animateButtonPress(button) {
-    button.classList.add("pressed")
-    setTimeout(() => {
-      button.classList.remove("pressed")
-    }, 100)
-  }
-
-  // Go to home screen
-  function goToHomeScreen() {
-    gameOverScreen.classList.remove("active")
-    homeScreen.classList.add("active")
-  }
-
-  // Event Listeners for device selection
-  mobileBtn.addEventListener("click", function() {
-    deviceType = "mobile"
-    deviceSelectionScreen.classList.remove("active")
-    homeScreen.classList.add("active")
-    applyDeviceOptimizations()
-  })
-
-  pcBtn.addEventListener("click", function() {
-    deviceType = "pc"
-    deviceSelectionScreen.classList.remove("active")
-    homeScreen.classList.add("active")
-    applyDeviceOptimizations()
-  })
-
-  tabletBtn.addEventListener("click", function() {
-    deviceType = "tablet"
-    deviceSelectionScreen.classList.remove("active")
-    homeScreen.classList.add("active")
-    applyDeviceOptimizations()
-  })
-
-  // Game control event listeners
-  startBtn.addEventListener("click", function() {
-    homeScreen.classList.remove("active")
-    gameScreen.classList.add("active")
-    initGame()
-  })
-
-  restartBtn.addEventListener("click", function() {
-    clearInterval(circleInterval)
-    initGame()
-  })
-
-  playAgainBtn.addEventListener("click", function() {
-    gameOverScreen.classList.remove("active")
-    gameScreen.classList.add("active")
-    initGame()
-  })
-
-  backToHomeBtn.addEventListener("click", goToHomeScreen)
-
-  soundToggle.addEventListener("click", toggleSound)
-
-  // Color button event listeners - FIXED for mobile touch
-  redBtn.addEventListener("click", function() {
-    handleColorClick("red")
-  })
-
-  greenBtn.addEventListener("click", function() {
-    handleColorClick("green")
-  })
-
-  blueBtn.addEventListener("click", function() {
-    handleColorClick("blue")
-  })
-
-  // Add touch support for mobile - IMPROVED
-  redBtn.addEventListener("touchstart", function(e) {
-    e.preventDefault()
-    handleColorClick("red")
-  })
-
-  greenBtn.addEventListener("touchstart", function(e) {
-    e.preventDefault()
-    handleColorClick("green")
-  })
-
-  blueBtn.addEventListener("touchstart", function(e) {
-    e.preventDefault()
-    handleColorClick("blue")
-  })
-
-  // Keyboard controls
-  document.addEventListener("keydown", handleKeyPress)
-
-  // Set audio to low volume to be less intrusive
-  correctSound.volume = 0.5
-  wrongSound.volume = 0.5
-  gameOverSound.volume = 0.5
-  backgroundMusic.volume = 0.3
-
-  // Preload audio
-  try {
-    correctSound.load()
-    wrongSound.load()
-    gameOverSound.load()
-    backgroundMusic.load()
-  } catch (e) {
-    console.log("Audio preloading not supported")
-  }
-
-  // Auto-detect device type on load
-  deviceType = detectDeviceType()
-  applyDeviceOptimizations()
-
-  // Prevent scrolling on touch devices when interacting with the game
-  document.addEventListener(
-    "touchmove",
-    function(e) {
-      if (gameActive) {
-        e.preventDefault()
-      }
-    },
-    { passive: false },
-  )
-
-  // Handle window resize
-  window.addEventListener("resize", function() {
-    if (deviceType === "auto") {
-      applyDeviceOptimizations()
+    else if(document.getElementsByClassName("play-pause")[0].innerText == "pause")
+    {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
     }
-  })
+}
 
-  // Handle audio permission banner
-  audioBanner.addEventListener("click", function() {
-    // Try to play all sounds once to grant permission
-    correctSound
-      .play()
-      .then(function() {
-        correctSound.pause()
-        correctSound.currentTime = 0
-      })
-      .catch(function() {})
+function playlist() {
+    document.getElementById("playlist").style.borderBottom = "2px solid green";
+    document.getElementById("artist").style.borderBottom = "none";
+    document.getElementById("albums").style.borderBottom = "none";
+    document.getElementsByClassName("p-a-e-d-s")[0].style.display = "block";
+    document.getElementsByClassName("artist-info-page")[0].style.display = "none";
+    if (document.getElementById("playlist").innerText == "Playlists") {
+        document.getElementsByClassName("p-a-e-d-s-h1")[0].innerText = "Create your first playlist";
+        document.getElementsByClassName("p-a-e-d-s-p")[0].innerText = "It's easy, we will help you";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].style.display = "inline-block";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].innerText = "CREATE PLAYLIST";
+    }
+    else {
+        document.getElementsByClassName("p-a-e-d-s-h1")[0].innerText = "Looking for something to Listen to?";
+        document.getElementsByClassName("p-a-e-d-s-p")[0].innerText = "";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].style.display = "inline-block";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].innerText = "BROWSE PODCASTS";
+    }
 
-    wrongSound
-      .play()
-      .then(function() {
-        wrongSound.pause()
-        wrongSound.currentTime = 0
-      })
-      .catch(function() {})
+}
 
-    gameOverSound
-      .play()
-      .then(function() {
-        gameOverSound.pause()
-        gameOverSound.currentTime = 0
-      })
-      .catch(function() {})
+function artists() {
+    document.getElementById("playlist").style.borderBottom = "none";
+    document.getElementById("artist").style.borderBottom = "2px solid green";
+    document.getElementById("albums").style.borderBottom = "none";
+    if (document.getElementById("artist").innerText == "Artists") {
+        document.getElementsByClassName("p-a-e-d-s")[0].style.display = "none";
+        document.getElementsByClassName("artist-info-page")[0].style.display = "block";
+    }
+    else {
+        document.getElementsByClassName("p-a-e-d-s-h1")[0].innerText = "No downloads yet";
+        document.getElementsByClassName("p-a-e-d-s-p")[0].innerHTML = "Tap &#x21e9; on an episod to listen without a connection";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].style.display = "inline-block";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].innerText = "BROWSE PODCASTS";
+    }
 
-    backgroundMusic
-      .play()
-      .then(function() {
-        backgroundMusic.pause()
-        backgroundMusic.currentTime = 0
-      })
-      .catch(function() {})
+}
 
-    // Hide the banner
-    audioBanner.style.display = "none"
-  })
+function albums() {
+    document.getElementById("playlist").style.borderBottom = "none";
+    document.getElementById("artist").style.borderBottom = "none";
+    document.getElementById("albums").style.borderBottom = "2px solid green";
+    document.getElementsByClassName("p-a-e-d-s")[0].style.display = "block";
+    document.getElementsByClassName("artist-info-page")[0].style.display = "none";
+    if (document.getElementById("albums").innerText == "Albums") {
+        document.getElementsByClassName("p-a-e-d-s-h1")[0].innerText = "Your albums will appear here";
+        document.getElementsByClassName("p-a-e-d-s-p")[0].innerText = "";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].style.display = "none";
+    }
+    else {
+        document.getElementsByClassName("p-a-e-d-s-h1")[0].innerText = "You haven't followed any podcast yet";
+        document.getElementsByClassName("p-a-e-d-s-p")[0].innerText = "When you follow a podcast, you'll get new episodes automatically";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].style.display = "inline-block";
+        document.getElementsByClassName("p-a-e-d-s-span")[0].innerText = "BROWSE PODCASTS";
+    }
 
-  // Add special handling for mobile touch events
-  if (deviceType === "mobile" || deviceType === "tablet") {
-    // Make device selection buttons work better on touch
-    mobileBtn.addEventListener("touchstart", function(e) {
-      e.preventDefault()
-      deviceType = "mobile"
-      deviceSelectionScreen.classList.remove("active")
-      homeScreen.classList.add("active")
-      applyDeviceOptimizations()
-    })
+}
 
-    pcBtn.addEventListener("touchstart", function(e) {
-      e.preventDefault()
-      deviceType = "pc"
-      deviceSelectionScreen.classList.remove("active")
-      homeScreen.classList.add("active")
-      applyDeviceOptimizations()
-    })
+function music() {
+    document.getElementById("m-p-podcasts").style.fontWeight = "normal";
+    document.getElementById("m-p-music").style.fontWeight = "bold";
+    document.getElementById("playlist").innerText = "Playlists";
+    document.getElementById("artist").innerText = "Artists";
+    document.getElementById("albums").innerText = "Albums";
+    playlist();
+}
 
-    tabletBtn.addEventListener("touchstart", function(e) {
-      e.preventDefault()
-      deviceType = "tablet"
-      deviceSelectionScreen.classList.remove("active")
-      homeScreen.classList.add("active")
-      applyDeviceOptimizations()
-    })
+function podcasts() {
+    document.getElementById("m-p-podcasts").style.fontWeight = "bold";
+    document.getElementById("m-p-music").style.fontWeight = "normal";
+    document.getElementById("playlist").innerText = "Episodes";
+    document.getElementById("artist").innerText = "Downloads";
+    document.getElementById("albums").innerText = "Shows";
+    playlist();
+}
 
-    // Make audio banner work better on touch
-    audioBanner.addEventListener("touchstart", function(e) {
-      e.preventDefault()
-      // Try to play all sounds once to grant permission
-      correctSound
-        .play()
-        .then(function() {
-          correctSound.pause()
-          correctSound.currentTime = 0
-        })
-        .catch(function() {})
+function musicPlayer(num) {
+    document.getElementById("home").style.display = "none";
+    document.getElementById("search").style.display = "none";
+    document.getElementById("your-library").style.display = "none";
+    document.getElementById("premium").style.display = "none";
+    document.getElementById("music-player").style.display = "block";
+    snum = num;
+    
+    if (num == 1) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/ydZzxx0/Taare-Ginn-Lyrics-Dil-Bechara.jpg");
+    }
+    else if (num == 2) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/tzr8tBD/size-xxl-1580277626.webp");
+    }
+    else if (num == 3) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/zFhSXqz/mera-intezaar-karna-lyrics-armaan-malik.jpg");
+    }
+    else if (num == 4) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/W6MspNm/40ab8e79ffd498c21b067b3f30e328fc.jpg");
+    }
+    else if (num == 5) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/G2C9zqg/teri-aankhon-mein.jpg");
+    }
+    else if (num == 6) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/NL81Zxh/b41cfa4986a21aac5d5d83bcebe04a1b.jpg");
+    }
+    else if (num == 7) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/QNZvWwQ/tere-naal1.jpg");
+    }
+    else if (num == 8) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/QFhFj4g/kabir-singh-1.webp");
+    }
+    else if (num == 9) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/YhWQJ7Y/2f6094a5fa70f38c38d588c28fe41a23.jpg");
+    }
+    else if (num == 10) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/Z6g41HL/size-xxl-1560502248.webp");
+    }
+    else if (num == 11) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/X7mDcYD/ab67706c0000bebb82164921917863f746512d36.jpg");
+    }
+    else if (num == 12) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/MsrMXYr/images-q-tbn-ANd9-Gc-QFk-Ovf3f-WHfj6l-Ps-X86-Fe-Kx-0-HXu984aj6-Eg-usqp-CAU.jpg");
+    }
+    else if (num == 13) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById(num).preload;
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/4pKJBsQ/poster-504x498-f8f8f8-pad-600x600-f8f8f8.jpg");
+    }
+    else if (num == 14) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/6rbGXYk/Savage-Love-English-2020-20200209181756-500x500.jpg");
+    }
+    else if (num == 15) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/RbM9vzM/EYk-Rh-TVX0-AAJWar.jpg");
+    }
+    else if (num == 16) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/nCjDMrP/2262f2a66dcd817ef866f7761d4994c6.jpg");
+    }
+    else if (num == 17) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/R2V6n2y/f9bf2544de89efe9717dbe4b3d0acb12.jpg");
+    }
+    else if (num == 18) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/5kw1yHm/Eg-Xz-Q43-U4-AAVIYR.jpg");
+    }
+    else if (num == 19) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/sv0mTgq/eea36d0db167f59443c4b1a44782cbf5.jpg");
+    }
+    else if (num == 20) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/RDSmcx8/size-xxl-1580302577.webp");
+    }
+    else if (num == 21) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/NF129yY/img-20190625-113855-jxbus2lx.jpg");
+    }
+    else if (num == 22) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/SxfFj7Q/08a592ab85ed83d83bfdaa7938437245.jpg");
+    }
+    else if (num == 23) {
+        document.getElementById("music-player-image").removeAttribute("src");
+        document.getElementById("music-player-image").setAttribute("src", "https://i.ibb.co/NYVHksZ/dce8fccbc2491e86e5c903115d971e9d.jpg");
+    }
 
-      // Hide the banner
-      audioBanner.style.display = "none"
-    })
-  }
-})
+}
+
+function playSong() {
+    if (isplaying) {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
+        if (snum == 1) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 2) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 3) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 4) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 5) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 6) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 7) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 8) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 9) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 10) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 11) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 12) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 13) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 14) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 15) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 16) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 17) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 18) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 19) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 20) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 21) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 22) {
+            document.getElementById(snum).pause();
+        }
+        else if (snum == 23) {
+            document.getElementById(snum).pause();
+        }
+    }
+
+    else {
+        document.getElementsByClassName("play-pause")[0].innerText = "pause";
+        isplaying = true;
+        if (snum == 1) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 2) {
+            ;
+        }
+        else if (snum == 3) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 4) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 5) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 6) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 7) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 8) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 9) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 10) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 11) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 12) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 13) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 14) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 15) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 16) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 17) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 18) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 19) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 20) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 21) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 22) {
+            document.getElementById(snum).play();
+        }
+        else if (snum == 23) {
+            document.getElementById(snum).play();
+        }
+    }
+
+}
+
+function next() {
+    if(document.getElementById(snum).paused == false)
+    {
+        document.getElementById(snum).pause();
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
+    }
+
+    else if(document.getElementsByClassName("play-pause")[0].innerText == "pause")
+    {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
+    }   
+    snum = snum + 1;
+    if (snum == 24) {
+        snum = 1;
+    }
+
+    document.getElementsByClassName("repeat")[0].style.color = "rgb(47,47,47)";
+    islooping = false;
+    document.getElementsByClassName("shuffle")[0].style.color = "rgb(47,47,47)";
+    isshuffling = false;
+    musicPlayer(snum);
+}
+
+function previous() {
+    if(document.getElementById(snum).paused == false)
+    {
+        document.getElementById(snum).pause();
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
+    }
+
+    else if(document.getElementsByClassName("play-pause")[0].innerText == "pause")
+    {
+        document.getElementsByClassName("play-pause")[0].innerText = "play_arrow";
+        isplaying = false;
+    }
+    
+    snum = snum - 1;
+    if (snum == 0) {
+        snum = 23;
+    }
+    document.getElementsByClassName("repeat")[0].style.color = "rgb(47,47,47)";
+    islooping = false;
+    document.getElementsByClassName("shuffle")[0].style.color = "rgb(47,47,47)";
+    isshuffling = false;
+    musicPlayer(snum);
+}
+
+function loop() {
+    if (islooping) {
+        document.getElementsByClassName("repeat")[0].style.color = "rgb(47,47,47)";
+        islooping = false;
+    }
+    else {
+        document.getElementsByClassName("repeat")[0].style.color = "black";
+        islooping = true;
+    }
+
+}
+
+function shuffle() {
+    if (isshuffling) {
+        document.getElementsByClassName("shuffle")[0].style.color = "rgb(47,47,47)";
+        isshuffling = false;
+    }
+    else {
+        document.getElementsByClassName("shuffle")[0].style.color = "black";
+        isshuffling = true;
+    }
+
+}
+
+function theme(number)
+{
+    document.getElementsByClassName("first")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("second")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("third")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("fourth")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("fifth")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("sixth")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("seventh")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("eighth")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("nineth")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName("tenth")[0].style.boxShadow = "0 0 10px rgb(18, 18, 18)";
+    document.getElementsByClassName(number)[0].style.boxShadow = "0 0 10px white";
+
+    if(number == "first")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/TYDBJrb/03c59b734425c4948be50b5925ed7189.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/TYDBJrb/03c59b734425c4948be50b5925ed7189.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/TYDBJrb/03c59b734425c4948be50b5925ed7189.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/TYDBJrb/03c59b734425c4948be50b5925ed7189.jpg')";
+    }
+    else if(number == "second")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/G396V66/wp4748688.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/G396V66/wp4748688.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/G396V66/wp4748688.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/G396V66/wp4748688.jpg')";
+    }
+    else if(number == "third")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/Cm5d41t/e0b472784cfe4bf74a516d5213d873fd.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/Cm5d41t/e0b472784cfe4bf74a516d5213d873fd.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/Cm5d41t/e0b472784cfe4bf74a516d5213d873fd.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/Cm5d41t/e0b472784cfe4bf74a516d5213d873fd.jpg')";
+    }
+    else if(number == "fourth")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/8stDyrm/gh0w-Qe13oo-Ucv-O59j-KPMd7k-Vr-RF8-UY4c-TMt5pk5-UQR9-Dmb-RNr-P01u-SX1-9af-Nqp8ni62k-B46-El-Osmxfg-YE.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/8stDyrm/gh0w-Qe13oo-Ucv-O59j-KPMd7k-Vr-RF8-UY4c-TMt5pk5-UQR9-Dmb-RNr-P01u-SX1-9af-Nqp8ni62k-B46-El-Osmxfg-YE.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/8stDyrm/gh0w-Qe13oo-Ucv-O59j-KPMd7k-Vr-RF8-UY4c-TMt5pk5-UQR9-Dmb-RNr-P01u-SX1-9af-Nqp8ni62k-B46-El-Osmxfg-YE.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/8stDyrm/gh0w-Qe13oo-Ucv-O59j-KPMd7k-Vr-RF8-UY4c-TMt5pk5-UQR9-Dmb-RNr-P01u-SX1-9af-Nqp8ni62k-B46-El-Osmxfg-YE.jpg')";
+    }
+    else if(number == "fifth")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/0Fnpgrx/4536593.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/0Fnpgrx/4536593.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/0Fnpgrx/4536593.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/0Fnpgrx/4536593.jpg')";
+    }
+    else if(number == "sixth")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/tbzcRzB/d7c7a53c45cfb55b0c1fbdb9c35fb9c9.png')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/tbzcRzB/d7c7a53c45cfb55b0c1fbdb9c35fb9c9.png')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/tbzcRzB/d7c7a53c45cfb55b0c1fbdb9c35fb9c9.png')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/tbzcRzB/d7c7a53c45cfb55b0c1fbdb9c35fb9c9.png')";
+    }
+    else if(number == "seventh")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/rpgQX4c/7c33f78ca6c13ab76714a9ac634f53e7.png')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/rpgQX4c/7c33f78ca6c13ab76714a9ac634f53e7.png')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/rpgQX4c/7c33f78ca6c13ab76714a9ac634f53e7.png')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/rpgQX4c/7c33f78ca6c13ab76714a9ac634f53e7.png')";
+    }
+    else if(number == "eighth")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/L0sRJfw/335372.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/L0sRJfw/335372.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/L0sRJfw/335372.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/L0sRJfw/335372.jpg')";
+    }
+    else if(number == "nineth")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/mzFwNFx/71b583c3ed23c5549018e8075418c559.jpg')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/mzFwNFx/71b583c3ed23c5549018e8075418c559.jpg')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/mzFwNFx/71b583c3ed23c5549018e8075418c559.jpg')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/mzFwNFx/71b583c3ed23c5549018e8075418c559.jpg')";
+    }
+    else if(number == "tenth")
+    {
+        document.getElementById("home").style.backgroundImage = "url('https://i.ibb.co/n39x3tz/2e994ceda9a67bc0f82161cca9bb9123.png')";
+        document.getElementById("search-items").style.backgroundImage = "url('https://i.ibb.co/n39x3tz/2e994ceda9a67bc0f82161cca9bb9123.png')";
+        document.getElementsByClassName("your-library-color")[0].style.backgroundImage = "url('https://i.ibb.co/n39x3tz/2e994ceda9a67bc0f82161cca9bb9123.png')";
+        document.getElementById("premium").style.backgroundImage = "url('https://i.ibb.co/n39x3tz/2e994ceda9a67bc0f82161cca9bb9123.png')";
+    }
+}

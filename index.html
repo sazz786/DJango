@@ -1,106 +1,679 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Match Rush</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Spotify Clone</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
 </head>
+
 <body>
-    <!-- Audio Permission Banner -->
-    <div id="audio-permission-banner" class="audio-banner">
-        <p>🔊 Click here to enable game sounds</p>
-    </div>
+    <section class="start-page" id="start-page">
+        <img src="https://i.ibb.co/PM0BgHX/1605950792065.png" alt="">
+    </section>
 
-    <!-- Device Selection Screen -->
-    <div id="device-selection-screen" class="screen active">
-        <h1 class="game-title">Color Match Rush</h1>
-        <div class="color-icons">
-            <span class="color-icon red"></span>
-            <span class="color-icon green"></span>
-            <span class="color-icon blue"></span>
-        </div>
-        <h2>Choose Your Device</h2>
-        <div class="device-buttons">
-            <button id="mobile-btn" class="device-btn">
-                <i class="fas fa-mobile-alt"></i>
-                <span>Mobile</span>
-            </button>
-            <button id="pc-btn" class="device-btn">
-                <i class="fas fa-laptop"></i>
-                <span>PC / Laptop</span>
-            </button>
-            <button id="tablet-btn" class="device-btn">
-                <i class="fas fa-tablet-alt"></i>
-                <span>Tablet</span>
-            </button>
-        </div>
-        <p class="device-note">This helps us optimize your experience, but the game will adapt to your device automatically.</p>
-    </div>
+    <section class="nav-bar" id="nav-bar">
+        <a href="#tb"><button class="material-icons" onclick="showhome()">home</button></a><a href="#search"><button class="material-icons"
+            onclick="showsearch()">search</button></a><a href="#tb"><button onclick="showlibrary()"><img
+                src="https://i.ibb.co/hmMXC4t/on-library.jpg" alt=""></button></a><a href="#premium"><button onclick="showpremium()"><img src="https://i.ibb.co/phbgJ0M/premium.jpg" alt=""></button></a>
+    </section>
+    <section class="mainpage" id="mainpage">
 
-    <!-- Home Screen -->
-    <div id="home-screen" class="screen">
-        <h1 class="game-title">Color Match Rush</h1>
-        <div class="color-icons">
-            <span class="color-icon red"></span>
-            <span class="color-icon green"></span>
-            <span class="color-icon blue"></span>
-        </div>
-        <button id="start-btn" class="neon-btn">Start Game</button>
-        <div class="instructions">
-            <h2>How to Play</h2>
-            <p>Match the falling circles with the correct color button before they reach the bottom!</p>
-            <p>3 misses and it's game over!</p>
-            <div id="keyboard-controls" class="hidden">
-                <h3>Keyboard Controls:</h3>
-                <p><span class="key">R</span> - Red | <span class="key">G</span> - Green | <span class="key">B</span> - Blue</p>
-                <p><span class="key">M</span> - Toggle Sound | <span class="key">ESC</span> - Restart</p>
+        <section class="home" id="home">
+            <div class="top-buttons" id="tb">
+                <span class="material-icons" onclick="themeChange()" id="mode">
+                    brush
+                </span>
+                <span class="material-icons">
+                    settings
+                </span>
             </div>
-        </div>
-    </div>
 
-    <!-- Game Screen -->
-    <div id="game-screen" class="screen">
-        <div class="game-header">
-            <div class="score-container">
-                <span>Score: <span id="score">0</span></span>
+
+            <h1 class="heading">
+                Top Hits
+            </h1>
+            <div class="list">
+                <div>
+                    <div class="song" onclick="musicPlayer(1)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/ydZzxx0/Taare-Ginn-Lyrics-Dil-Bechara.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Taare Ginn
+                        </div>
+                        <audio src="https://www.dropbox.com/s/wokdo2022fl32mi/dil%20bechara%20tare%20ginn%20-c-.mp3?raw=1" id="1"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(2)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/tzr8tBD/size-xxl-1580277626.webp" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Haan Main Galat
+                        </div>
+                        <audio src="https://www.dropbox.com/s/p6rxlr4iwmsqcoa/haan%20mein%20galat%20-c-.mp3?raw=1" id="2"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(3)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/zFhSXqz/mera-intezaar-karna-lyrics-armaan-malik.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Mera Intezaar Karna
+                        </div>
+                        <audio src="https://www.dropbox.com/s/7r5zladu4syjx71/mera%20Intezaar%20karna%20-c-.mp3?raw=1" id="3"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(4)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/W6MspNm/40ab8e79ffd498c21b067b3f30e328fc.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Tum Se Hi
+                        </div>
+                        <audio src="https://www.dropbox.com/s/22vbbg6xlq3z2fa/tum%20se%20hi%20-c-.mp3?raw=1" id="4"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(5)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/G2C9zqg/teri-aankhon-mein.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Teri Aankhon Mein
+                        </div>
+                        <audio src="https://www.dropbox.com/s/rkm4qgco3p7swpn/Teri%20aakhon%20mein%20-top-%20-c-.mp3?raw=1" id="5"></audio>
+                    </div>
+                </div>
             </div>
-            <div class="lives-container">
-                <span id="lives"><i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i></span>
+
+
+            <h1 class="heading">
+                Your favourite
+            </h1>
+            <div class="list">
+                <div>
+                    <div class="song" onclick="musicPlayer(6)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/NL81Zxh/b41cfa4986a21aac5d5d83bcebe04a1b.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Asal Mein
+                        </div>
+                        <audio src="https://www.dropbox.com/s/qymh0t4vlx0z8g2/Asal%20mein%20-c-.mp3?raw=1" id="6"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(7)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/QNZvWwQ/tere-naal1.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Tere Naal
+                        </div>
+                        <audio src="https://www.dropbox.com/s/bx6trwxhs0ka4wk/tere%20naal%20-c-.mp3?raw=1" id="7"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(8)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/QFhFj4g/kabir-singh-1.webp" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Kaise Hua
+                        </div>
+                        <audio src="https://www.dropbox.com/s/4cwicfhgvk8dm42/kaise%20hua%20-c-.mp3?raw=1" id="8"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(9)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/YhWQJ7Y/2f6094a5fa70f38c38d588c28fe41a23.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Mere Liye Tum Kaafi Ho
+                        </div>
+                        <audio src="https://www.dropbox.com/s/w35jm21bk0mjnbb/mere%20liye%20tum%20kafi%20ho%20-c-.mp3?raw=1" id="9"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(10)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/Z6g41HL/size-xxl-1560502248.webp" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Tera Ban Jaunja
+                        </div>
+                        <audio src="https://www.dropbox.com/s/j36o3vnx2behpag/tera%20ban%20jaunga%20-c-.mp3?raw=1" id="10"></audio>
+                    </div>
+                </div>
             </div>
-            <div class="controls">
-                <button id="sound-toggle" class="icon-btn"><i class="fas fa-volume-up"></i></button>
-                <button id="restart-btn" class="icon-btn"><i class="fas fa-redo"></i></button>
+
+            <h1 class="heading">
+                Try these
+            </h1>
+            <div class="list">
+                <div>
+                    <div class="song" onclick="musicPlayer(11)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/X7mDcYD/ab67706c0000bebb82164921917863f746512d36.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Before You Go
+                        </div>
+                        <audio src="https://www.dropbox.com/s/xjz084hssk358tf/before%20u%20go%20-c-.mp3?raw=1" id="11"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(12)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/MsrMXYr/images-q-tbn-ANd9-Gc-QFk-Ovf3f-WHfj6l-Ps-X86-Fe-Kx-0-HXu984aj6-Eg-usqp-CAU.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Holy
+                        </div>
+                        <audio src="https://www.dropbox.com/s/d0es547u2g2gccm/holy%20-c-.mp3?raw=1" id="12"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(13)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/4pKJBsQ/poster-504x498-f8f8f8-pad-600x600-f8f8f8.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Life Goes On
+                        </div>
+                        <audio src="https://www.dropbox.com/s/yej1657iprvevk4/life%20goes%20on%20-c-.mp3?raw=1" id="13"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(14)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/6rbGXYk/Savage-Love-English-2020-20200209181756-500x500.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Savage Love
+                        </div>
+                        <audio src="https://www.dropbox.com/s/e7vrjk0cjr3gzfk/savage%20lave%20-c-.mp3?raw=1" id="14"></audio>
+                    </div>
+
+                </div>
             </div>
-        </div>
-        
-        <div id="game-area">
-            <!-- Circles will be generated here -->
-        </div>
-        
-        <div class="color-buttons">
-            <button id="red-btn" class="color-btn red-btn" data-key="R"><span class="btn-glow"></span></button>
-            <button id="green-btn" class="color-btn green-btn" data-key="G"><span class="btn-glow"></span></button>
-            <button id="blue-btn" class="color-btn blue-btn" data-key="B"><span class="btn-glow"></span></button>
-        </div>
-    </div>
 
-    <!-- Game Over Screen -->
-    <div id="game-over-screen" class="screen">
-        <h2>Game Over</h2>
-        <div class="final-score">
-            <span>Final Score: <span id="final-score">0</span></span>
+
+            <h1 class="heading">
+                For you
+            </h1>
+            <div class="list">
+                <div>
+                    <div class="song" onclick="musicPlayer(15)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/RbM9vzM/EYk-Rh-TVX0-AAJWar.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Go Crazy
+                        </div>
+                        <audio src="https://www.dropbox.com/s/eicxuf8ddj96z4d/go%20crazy%20-c-.mp3?raw=1" id="15"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(16)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/nCjDMrP/2262f2a66dcd817ef866f7761d4994c6.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            On Chill
+                        </div>
+                        <audio src="https://www.dropbox.com/s/twncfl5pebiut2o/om%20chill%20-c-.mp3?raw=1" id="16"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(17)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/R2V6n2y/f9bf2544de89efe9717dbe4b3d0acb12.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Higher Love
+                        </div>
+                        <audio src="https://www.dropbox.com/s/f5tcmggmi16mlql/higher%20love%20-c-.mp3?raw=1" id="17"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(18)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/5kw1yHm/Eg-Xz-Q43-U4-AAVIYR.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Falling For You
+                        </div>
+                        <audio src="https://www.dropbox.com/s/3ixjmccjo8sfzum/falling%20for%20u%20-c-.mp3?raw=1" id="18"></audio>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+
+            <h1 class="heading">
+                Be Relax
+            </h1>
+            <div class="list">
+                <div>
+                    <div class="song" onclick="musicPlayer(19)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/sv0mTgq/eea36d0db167f59443c4b1a44782cbf5.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Aaj Bhi
+                        </div>
+                        <audio src="https://www.dropbox.com/s/1nngrgee22woumt/aaj%20bhi%20-R-%20-c-.mp3?raw=1" id="20"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(20)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/RDSmcx8/size-xxl-1580302577.webp" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Humraah
+                        </div>
+                        <audio src="https://www.dropbox.com/s/kp7vi1n3780kws5/humraah%20-c-.mp3?raw=1" id="21"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(21)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/NF129yY/img-20190625-113855-jxbus2lx.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Pehla Pyaar
+                        </div>
+                        <audio src="https://www.dropbox.com/s/roz84ejyu7a5ugh/pehla%20pyaar%20-c-.mp3?raw=1" id="22"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(22)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/SxfFj7Q/08a592ab85ed83d83bfdaa7938437245.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Shayad
+                        </div>
+                        <audio src="https://www.dropbox.com/s/mol7wreu4xxsjsf/shayad%20-c-.mp3?raw=1" id="23"></audio>
+                    </div>
+
+                    <div class="song" onclick="musicPlayer(23)">
+                        <div class="pic">
+                            <img src="https://i.ibb.co/NYVHksZ/dce8fccbc2491e86e5c903115d971e9d.jpg" alt="" class="pic">
+                        </div>
+                        <div class="artists">
+                            Tera Yaar Hoon Main
+                        </div>
+                        <audio src="https://www.dropbox.com/s/3e1j6tz626ohtrs/tera%20yarr%20hu%20mein%20-c-.mp3?raw=1" id="24"></audio>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </section>
+
+
+        <section class="search" id="search">
+            <h1>
+                Search
+            </h1>
+            <div class="search-bar">
+                <span class="material-icons">search</span>
+                <span class="search-bar-asp">Artists, songs or podcasts</span>
+            </div>
+            <div id="search-items">
+                <h2>
+                    Browse all
+                </h2>
+                <div class="cards">
+                    <div class="card-left one">Bollywood</div><div class="card-right two">Punjabi</div><div class="card-left three">Tamil</div><div class="card-right four">Telugu</div><div class="card-left five">Indie</div><div class="card-right six">Pop</div><div class="card-left seven">RADAR</div><div class="card-right eight">Marathi</div><div class="card-left nine">Romance</div><div class="card-right ten">K-pop</div><div class="card-left eleven">Party</div><div class="card-right twelve">Dance</div><div class="card-left thirteen">Devotional</div><div class="card-right fourteen">Hip Hop</div><div class="card-left fifteen">Coding</div><div class="card-right sixteen">Sleep</div><div class="card-left seventeen">Kids</div><div class="card-right eighteen">Rock</div><div class="card-left nineteen">Summer</div><div class="card-right twenty">Concerts</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="your-library" id="your-library">
+            <div class="m-p">
+                <div onclick="music()" id="m-p-music">Music</div>
+                <div onclick="podcasts()" id="m-p-podcasts">Podcasts</div>
+            </div>
+            <div class="your-library-color">
+                <div class="p-a-a">
+                    <div onclick="playlist()" id="playlist">Playlists</div>
+                    <div onclick="artists()" id="artist">Artists</div>
+                    <div onclick="albums()" id="albums">Albums</div>
+                </div>
+                <div class="p-a-e-d-s">
+                    <div>
+                        <h1 class="p-a-e-d-s-h1">Create your first playlist</h1>
+                        <p class="p-a-e-d-s-p">It's easy we will help you</p>
+                        <span class="p-a-e-d-s-span">Create Playlist</span>
+                    </div>
+                </div>
+                <div class="artist-info-page">
+                    <div class="artist-info">
+                        <div class="artist-pic">
+                            <img src="https://i.ibb.co/ZHr7Rqz/ar-rahman-facebook-010516035634.jpg" alt="" class="artist-pic">
+                        </div>
+                        <div class="artist-name">A.R. Rahman</div>
+                    </div>
+                    <div class="artist-info">
+                        <div class="artist-pic">
+                            <img src="https://i.ibb.co/QCFfpym/Arijit-Singh.png" alt="" class="artist-pic">
+                        </div>
+                        <div class="artist-name">Arijit Singh</div>
+                    </div>
+                    <div class="artist-info">
+                        <div class="artist-pic">
+                            <img src="https://i.ibb.co/m9csnK9/images.jpg" alt="" class="artist-pic">
+                        </div>
+                        <div class="artist-name">Armaan Malik</div>
+                    </div>
+                    <div class="artist-info">
+                        <div class="artist-pic">
+                            <img src="https://i.ibb.co/MVbr6kc/72918402.jpg" alt="" class="artist-pic">
+                        </div>
+                        <div class="artist-name">Ayushmann Khurrana</div>
+                    </div>
+                    <div class="artist-info">
+                        <div class="artist-pic">
+                            <img src="https://i.ibb.co/WFRc0r1/Neha-Kakkar-Instagram.jpg" alt="" class="artist-pic">
+                        </div>
+                        <div class="artist-name">Neha Kakkar</div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </section>
+
+
+        <section class="premium" id="premium">
+            <h1>
+                <div>
+                    Get one year of Premium <br> for ₹999
+                </div>
+            </h1>
+            <div class="slideshow-compare">
+                <div>
+                    <div class="compare">
+                        <div class="compare-free">
+                            <span class="compare-free-title">
+                                Free
+                            </span>
+                            <span class="compared">
+                                Ad <br> breaks
+                            </span>
+                        </div><div class="compare-paid">
+                            <span class="compare-paid-title">
+                                Premium
+                            </span>
+                            <span class="compared">
+                                Ad-free <br> music <br>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="compare">
+                        <div class="compare-free">
+                            <span class="compare-free-title">
+                                Free
+                            </span>
+                            <span class="compared">
+                                Play in <br> shuffle
+                            </span>
+                        </div><div class="compare-paid">
+                            <span class="compare-paid-title">
+                                Premium
+                            </span>
+                            <span class="compared">
+                                Play any <br> song
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="compare">
+                        <div class="compare-free">
+                            <span class="compare-free-title">
+                                Free
+                            </span>
+                            <span class="compared">
+                                6 skips <br> per hour
+                            </span>
+                        </div><div class="compare-paid">
+                            <span class="compare-paid-title">
+                                Premium
+                            </span>
+                            <span class="compared">
+                                Unlimited <br> skips
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="compare">
+                        <div class="compare-free">
+                            <span class="compare-free-title">
+                                Free
+                            </span>
+                            <span class="compared">
+                                Streaming <br> only
+                            </span>
+                        </div><div class="compare-paid">
+                            <span class="compare-paid-title">
+                                Premium
+                            </span>
+                            <span class="compared">
+                                Offline <br> listening
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="compare">
+                        <div class="compare-free">
+                            <span class="compare-free-title">
+                                Free
+                            </span>
+                            <span class="compared">
+                                Basic audio <br> quality
+                            </span>
+                        </div><div class="compare-paid">
+                            <span class="compare-paid-title">
+                                Premium
+                            </span>
+                            <span class="compared">
+                                High audio <br> quality
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="get-premium-button-container">
+                <div class="get-premium-button">
+                    GET PREMIUM
+                </div>
+            </div>
+            
+            <div class="spotify-free-plan">
+                <div>
+                    Spotify Free
+                </div>
+                <div>
+                    <small>
+                        CURRENT PLAN
+                    </small>
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    1 year of Premium
+                </div>
+                <div class="pricing">
+                    ₹999
+                </div>
+                <div class="specifications">
+                    Save ₹429 compared to monthly plans &#8226; Offer ends Dec 31 &#8226; Pay with PayTM, UPI, or debit card &#8226; One-time payment
+                </div>
+                <div class="paid-plans-button">
+                    GET PREMIUM
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    Premium Individual
+                </div>
+                <div class="pricing">
+                    Free
+                </div>
+                <div class="specifications">
+                    Ad-free music &#8226; Download to listen offline &#8226; Unlimited skips &#8226; On-demand playback &#8226; Group Session: Listen together with up to 5 other Premium members, even when you're apart &#8226; Cancel anytime
+                </div>
+                <div class="paid-plans-button">
+                    GET 3 MONTHS FREE
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    Premium Family
+                </div>
+                <div class="pricing">
+                    Free
+                </div>
+                <div class="specifications">
+                    Up to 6 Premium accounts &#8226; Family Mix: shared playlist &#8226; Block explicit music &#8226; Ad-free music &#8226; Download to listen offline &#8226; Unlimited skips &#8226; On-demand playback &#8226; Cancel anytime
+                </div>
+                <div class="paid-plans-button">
+                    TRY 1 MONTH FREE
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    Family Flexi Plans
+                </div>
+                <div class="pricing">
+                    From ₹595
+                </div>
+                <div class="specifications">
+                    Choose three, six or twelve months of Premium &#8226; Pay with PayTM or UPI. Top up when you want
+                </div>
+                <div class="paid-plans-button">
+                    GET PREMIUM FAMILY
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    Flexi Plans
+                </div>
+                <div class="pricing">
+                    From ₹13
+                </div>
+                <div class="specifications">
+                    Choose a day, week or month of Premium &#8226; Pay with PayTM or UPI &#8226; Top up when you want
+                </div>
+                <div class="paid-plans-button">
+                    GET PREMIUM
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    Premium Duo
+                </div>
+                <div class="pricing">
+                    Free
+                </div>
+                <div class="specifications">
+                    2 Premium accounts &#8226; Duo Mix: shared playlist for two &#8226; Ad-free music &#8226; Download to listen offline &#8226; Unlimited skips &#8226; On-demand playback &#8226; Cancel anytime 
+                </div>
+                <div class="paid-plans-button">
+                    TRY 1 MONTH FREE
+                </div>
+            </div>
+
+            <div class="paid-plans">
+                <div class="paid-plans-name">
+                    Premium Student
+                </div>
+                <div class="pricing">
+                    Free
+                </div>
+                <div class="specifications">
+                    Ad-free music &#8226; Download to listen offline &#8226; Unlimited skips &#8226; On-demand playback &#8226; Cancel anytime
+                </div>
+                <div class="paid-plans-button">
+                    TRY 1 MONTH FREE
+                </div>
+            </div>
+
+        </section>
+
+        <section class="music-player" id="music-player">
+
+            <img src="dummy.jpg" alt="" id="music-player-image">
+            <div class="song-controls">
+                
+                <span class="repeat material-icons" onclick="loop()">
+                    loop
+                </span>
+                
+                <span class="previous material-icons" onclick="previous()">
+                    skip_previous
+                </span>
+                <span>
+
+                </span>
+                <span class="play-pause material-icons" onclick="playSong()">
+                    play_arrow
+                </span>
+                <span class="next material-icons" onclick="next()">
+                    skip_next
+                </span>
+                <span class="shuffle material-icons" onclick="shuffle()">
+                    shuffle
+                </span>
+            </div>
+        </section>
+
+
+    </section>
+
+
+    <section class="themeStore" id="themeStore">
+        <div class="first" onclick="theme('first')">
+            <img src="https://i.ibb.co/TYDBJrb/03c59b734425c4948be50b5925ed7189.jpg" alt="">
         </div>
-        <button id="play-again-btn" class="neon-btn">Play Again</button>
-        <button id="back-to-home-btn" class="neon-btn secondary">Back to Home</button>
-    </div>
-
-    <footer>
-        <p>Developed by Sazida 😊</p>
-    </footer>
-
-    <script src="script.js"></script>
+        <div class="second" onclick="theme('second')">
+            <img src="https://i.ibb.co/G396V66/wp4748688.jpg" alt="">
+        </div>
+        <div class="third" onclick="theme('third')">
+            <img src="https://i.ibb.co/Cm5d41t/e0b472784cfe4bf74a516d5213d873fd.jpg" alt="">
+        </div>
+        <div class="fourth" onclick="theme('fourth')">
+            <img src="https://i.ibb.co/8stDyrm/gh0w-Qe13oo-Ucv-O59j-KPMd7k-Vr-RF8-UY4c-TMt5pk5-UQR9-Dmb-RNr-P01u-SX1-9af-Nqp8ni62k-B46-El-Osmxfg-YE.jpg" alt="">
+        </div>
+        <div class="fifth" onclick="theme('fifth')">
+            <img src="https://i.ibb.co/0Fnpgrx/4536593.jpg" alt="">
+        </div>
+        <div class="sixth" onclick="theme('sixth')">
+            <img src="https://i.ibb.co/tbzcRzB/d7c7a53c45cfb55b0c1fbdb9c35fb9c9.png" alt="">
+        </div>
+        <div class="seventh" onclick="theme('seventh')">
+            <img src="https://i.ibb.co/rpgQX4c/7c33f78ca6c13ab76714a9ac634f53e7.png" alt="">
+        </div>
+        <div class="eighth" onclick="theme('eighth')">
+            <img src="https://i.ibb.co/L0sRJfw/335372.jpg" alt="">
+        </div>
+        <div class="nineth" onclick="theme('nineth')">
+            <img src="https://i.ibb.co/mzFwNFx/71b583c3ed23c5549018e8075418c559.jpg" alt="">
+        </div>
+        <div class="tenth" onclick="theme('tenth')">
+            <img src="https://i.ibb.co/n39x3tz/2e994ceda9a67bc0f82161cca9bb9123.png" alt="">
+        </div>
+    </section>
+    <script src="script.js"></script> 
 </body>
+
 </html>
